@@ -7,7 +7,13 @@ INCLUDE_DIRECTORIES(/usr/local/include)
 LINK_DIRECTORIES(/usr/local/lib)
 LINK_LIBRARIES(-lglpk)
 
-add_executable(d003_package_easy_glpk src/main.cpp src/c10_easy_glpk_ilp.h src/c10_easy_glpk_ilp.cpp src/b99_test.h src/b99_test.cpp src/c20_fs_ff_solver.cpp src/c20_fs_ff_solver.h src_utils/ExceptionUtils.cpp src_utils/ExceptionUtils.h)
+add_executable(d003_package_easy_glpk src/main.cpp
+        src/c10_easy_glpk_ilp.h
+        src/c10_easy_glpk_ilp.cpp
+        src/b99_test.h
+        src/b99_test.cpp
+        src/c20_fs_ff_solver.cpp
+        src/c20_fs_ff_solver.h)
 
 
 

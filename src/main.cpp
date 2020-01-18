@@ -1,17 +1,17 @@
 #include <iostream>
 #include <exception>
-#include <iostream>
+#include <stdexcept>
+#include <exception>
 #include "b99_test.h"
-#include "../src_utils/ExceptionUtils.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
     try{
         test_c10_easy_glpk();
     }
-    catch(ExceptionUtils e)
+    catch(const std::exception & err)
     {
-        std::cerr << e.what() << std::endl;
+        std::cerr << err.what() << std::endl;
     }
 
     return 0;

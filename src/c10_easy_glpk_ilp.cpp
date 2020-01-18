@@ -6,7 +6,7 @@
 #include <vector>
 #include "c10_easy_glpk_ilp.h"
 #include <string>
-#include "../src_utils/ExceptionUtils.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -16,7 +16,7 @@ void EasyGlpkILP::SetOptimization(const std::vector<std::pair<int, double>> &fac
         m_opt.m_glp_opt = m_optimizationTypeMapper.at(opt);
     }
     catch (...) {
-        throw ExceptionUtils("Error: EasyGlpkILP::SetOptimization(): bad inputs");
+        throw logic_error("Error: EasyGlpkILP::SetOptimization(): bad inputs");
     }
     m_opt.m_factors = factors;
 }
@@ -29,7 +29,7 @@ void EasyGlpkILP::AddRow(const std::vector<std::pair<int, double>> &row,
         unit.m_glp_comparison = m_comparisonTypeMapper.at(comparison);
     }
     catch (...) {
-        throw ExceptionUtils("Error: EasyGlpkILP::AddRow(): bad inputs");
+        throw logic_error("Error: EasyGlpkILP::AddRow(): bad inputs");
     }
     unit.m_index = int(m_rows.size());
     unit.m_factors = row;
@@ -44,7 +44,7 @@ bool EasyGlpkILP::CheckInput() {
     for (const auto &glpk_row : m_rows) {
         for (std::pair<int, double> index_value : glpk_row.m_factors) {
             if (index_value.first <= 0) {
-                throw ExceptionUtils("Error: EasyGlpkILP::CheckInput() glpk_row: index_value.first <= 0;");
+                throw logic_error("Error: EasyGlpkILP::CheckInput() glpk_row: index_value.first <= 0;");
             }
             if (index_value.first > m_n_col)
                 m_n_col = index_value.first;
@@ -52,7 +52,7 @@ bool EasyGlpkILP::CheckInput() {
     }
     for (std::pair<int, double> index_value : m_opt.m_factors) {
         if (index_value.first <= 0) {
-            throw ExceptionUtils("Error: EasyGlpkILP::CheckInput() m_optimization: index_value.first <= 0;");
+            throw logic_error("Error: EasyGlpkILP::CheckInput() m_optimization: index_value.first <= 0;");
         }
         if (index_value.first > m_n_col)
             m_n_col = index_value.first;
@@ -72,6 +72,7 @@ void EasyGlpkILP::Solve() {
 
 //     auxiliary_variables_rows
     glp_add_rows(lp, m_n_row);
+
     char row_name[m_NAME_SIZE];
     for (const auto &row : m_rows) {
         sprintf(row_name, "r%d", row.m_index);
